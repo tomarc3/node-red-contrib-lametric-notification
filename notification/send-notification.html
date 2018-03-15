@@ -1,0 +1,57 @@
+<script type="text/javascript">
+    RED.nodes.registerType('send-notification',{
+        category: 'LaMetric',
+        color: '#a6bbcf',
+        defaults: {
+            name: {value:""},
+            host: {value:""},
+            apikey: {value:""},
+            priority: {value:"default"},
+            icon: {value:"default"}
+        },
+        inputs:1,
+        outputs:0,
+        icon: "envelope.png",
+        align: "right",
+        label: function() {
+            return this.name||"send-notification";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="send-notification">
+<div class="form-row">
+    <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+    <input type="text" id="node-input-name" placeholder="Name">
+</div>
+<div class="form-row">
+     <label for="node-input-host"><i class="icon-tag"></i> Host</label>
+     <input type="text" id="node-input-host" placeholder="IP-Address or Hostname">
+</div>
+<div class="form-row">
+     <label for="node-input-apikey"><i class="icon-tag"></i> API Key</label>
+     <input type="text" id="node-input-apikey">
+</div>
+<div class="form-row">
+    <label for="node-input-priority"><i class="fa fa-exclamation-triangle"></i> Priority</label>
+    <select id="node-input-priority">
+      <option value="default">default</option>
+      <option value="info">info</option>
+      <option value="warning">warning</option>
+      <option value="critical">critical</option>
+    </select>
+</div>
+<div class="form-row">
+    <label for="node-input-icon"><i class="fa fa-picture-o"></i> Icon Type</label>
+    <select id="node-input-icon">
+      <option value="default">default</option>
+      <option value="none">none</option>
+      <option value="info">info</option>
+      <option value="alert">alert</option>
+    </select>
+</div>
+</script>
+
+<script type="text/x-red" data-help-name="send-notification">
+    <p>A simple node that sends a notification message to a LaMetric device.</p>
+</script>
