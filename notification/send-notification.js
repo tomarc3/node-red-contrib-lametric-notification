@@ -61,7 +61,7 @@ module.exports = function(RED) {
       if (config.priority != "default") notification.priority = config.priority;
       if (config.icon != "default") notification.icon_type = config.icon;
 
-      this.warn(notification);
+      this.debug(notification);
 
       var notificationString = JSON.stringify(notification);
 
@@ -82,12 +82,9 @@ module.exports = function(RED) {
         }
       };
 
-      this.warn(options);
+      this.debug(options);
 
       var http = require('http');
-
-      this.warn ("http client created");
-
       var req = http.request(options, function(res) {
         node.warn('Status: ' + res.statusCode);
         node.warn('Headers: ' + JSON.stringify(res.headers));
@@ -101,14 +98,8 @@ module.exports = function(RED) {
       });      
       
       // write data to request body
-
-      this.warn("writing data ...");
-
       req.write(notificationString);
       req.end();
-
-      this.warn("... writing data completed");
-
     });
   }
   RED.nodes.registerType("send-notification",LametricSendNotificationNode);
