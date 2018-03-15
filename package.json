@@ -4,7 +4,7 @@
   "description": "A Node-RED node to send notification messages to a LaMetric device.",
   "dependencies": {},
   "author": "Tom Kocher",
-  "license": "ISC",
+  "license": "GNU GPLv3",
   "node-red": {
     "nodes": {
       "lametric-notification": "notification/send-notification.js"
