@@ -4,8 +4,8 @@
         color: '#a6bbcf',
         defaults: {
             name: {value:""},
-            host: {value:""},
-            apikey: {value:""},
+            host: {value:"", required:true},
+            apikey: {value:"", required:true},
             priority: {value:"default"},
             icon: {value:"default"}
         },
@@ -25,11 +25,11 @@
     <input type="text" id="node-input-name" placeholder="Name">
 </div>
 <div class="form-row">
-     <label for="node-input-host"><i class="icon-tag"></i> Host</label>
+     <label for="node-input-host"><i class="fa fa-globe"></i> Host</label>
      <input type="text" id="node-input-host" placeholder="IP-Address or Hostname">
 </div>
 <div class="form-row">
-     <label for="node-input-apikey"><i class="icon-tag"></i> API Key</label>
+     <label for="node-input-apikey"><i class="fa fa-key"></i> API Key</label>
      <input type="text" id="node-input-apikey">
 </div>
 <div class="form-row">
@@ -54,4 +54,21 @@
 
 <script type="text/x-red" data-help-name="send-notification">
     <p>A simple node that sends a notification message to a LaMetric device.</p>
+
+    <h3>Inputs</h3>
+    <dl class="message-properties">
+        <dt>payload
+            <span class="property-type">string | buffer</span>
+        </dt>
+        <dd> the payload of the message to publish. </dd>
+        <dt>Host <span class="property-type">string</span></dt>
+        <dd> The hostname or IP address ot the LaMetric device.</dd>
+        <dt>API Key <span class="property-type">string</span></dt>
+        <dd> The Api Key from the <a target="_blank" href="https://developer.lametric.com/user/devices">Devices section on the LaMetric developer home page</a>. </dd>
+        <dt class="optional">Priority <span class="property-type">string</span></dt>
+        <dd> The priority of the notification. </dd>
+        <dt class="optional">Icon Type <span class="property-type">string</span></dt>
+        <dd> The icon type to be shown prior to the notification. </dd>
+    </dl>
+
 </script>

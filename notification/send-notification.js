@@ -3,6 +3,10 @@ module.exports = function(RED) {
     RED.nodes.createNode(this,config);
     var node = this;
     node.on('input', function(msg) {
+
+      // create LaMetric notification body. check API reference for details: 
+      // http://lametric-documentation.readthedocs.io/en/latest/reference-docs/device-notifications.html
+      //
       // {
       //   "priority": "[info|warning|critical]",
       //   "icon_type":"[none|info|alert]",
@@ -57,18 +61,16 @@ module.exports = function(RED) {
             "cycles": 0
         }
       };
-
       if (config.priority != "default") notification.priority = config.priority;
       if (config.icon != "default") notification.icon_type = config.icon;
-
       this.debug(notification);
 
       var notificationString = JSON.stringify(notification);
 
+      // define http request options
       var username = 'dev';
       var password = config.apikey;
       var auth = 'Basic ' + Buffer.from(username + ':' + password).toString('base64');
-
       var options = {
         hostname: config.host,  
         port: 8080,
@@ -81,10 +83,12 @@ module.exports = function(RED) {
             'Authorization': auth
         }
       };
-
       this.debug(options);
 
+      // create http client
       var http = require('http');
+
+      // create http request and attach response callback
       var req = http.request(options, function(res) {
         node.warn('Status: ' + res.statusCode);
         node.warn('Headers: ' + JSON.stringify(res.headers));
@@ -97,7 +101,7 @@ module.exports = function(RED) {
         node.error('problem with request: ' + e.message);
       });      
       
-      // write data to request body
+      // write data to request body and send request
       req.write(notificationString);
       req.end();
     });
