@@ -5,9 +5,11 @@
         defaults: {
             name: {value:""},
             host: {value:"", required:true},
-            apikey: {value:"", required:true},
             priority: {value:"default"},
             icon: {value:"default"}
+        },
+        credentials: {
+            apikey: {type:"password"}
         },
         inputs:1,
         outputs:0,
@@ -30,7 +32,7 @@
 </div>
 <div class="form-row">
      <label for="node-input-apikey"><i class="fa fa-key"></i> API Key</label>
-     <input type="text" id="node-input-apikey">
+     <input type="password" id="node-input-apikey">
 </div>
 <div class="form-row">
     <label for="node-input-priority"><i class="fa fa-exclamation-triangle"></i> Priority</label>

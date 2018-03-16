@@ -63,27 +63,24 @@ module.exports = function(RED) {
       };
       if (config.priority != "default") notification.priority = config.priority;
       if (config.icon != "default") notification.icon_type = config.icon;
-      this.debug(notification);
+      this.warn(notification);
 
       var notificationString = JSON.stringify(notification);
 
       // define http request options
-      var username = 'dev';
-      var password = config.apikey;
-      var auth = 'Basic ' + Buffer.from(username + ':' + password).toString('base64');
       var options = {
         hostname: config.host,  
         port: 8080,
         path: '/api/v2/device/notifications',
         method: 'POST',
+        auth: 'dev:' + this.credentials.apikey,
         headers: {
             'Content-Type': 'application/json',
             'Content-Length': Buffer.byteLength(notificationString),
-            'Accept': 'applciation/json',
-            'Authorization': auth
+            'Accept': 'applciation/json'
         }
       };
-      this.debug(options);
+      this.warn(options);
 
       // create http client
       var http = require('http');
@@ -106,5 +103,9 @@ module.exports = function(RED) {
       req.end();
     });
   }
-  RED.nodes.registerType("send-notification",LametricSendNotificationNode);
+  RED.nodes.registerType("send-notification",LametricSendNotificationNode,{
+    credentials: {
+        apikey: {type:"password"}
+    }
+  });
 }
