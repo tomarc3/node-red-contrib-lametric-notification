@@ -9,6 +9,7 @@
   "dependencies": {},
   "author": "Tom Kocher",
   "license": "MIT",
+  "keywords": [ "node-red" ],
   "node-red": {
     "nodes": {
       "lametric-notification": "notification/send-notification.js"
