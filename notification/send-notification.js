@@ -52,6 +52,17 @@ module.exports = function(RED) {
       var req = http.request(options, function(res) {
         node.log('Status: ' + res.statusCode);
         node.log('Headers: ' + JSON.stringify(res.headers));
+
+        // eval http error code
+        if (res.statusCode == 401) {
+          node.warn('Client error: Unathorized --> Invalid API Key!')
+        } else if (res.statusCode >= 400 && res.statusCode < 500) {
+          node.warn('Client error: ' + res.statusCode);
+        } else if (res.statusCode >= 500 && res.statusCode < 600) {
+          node.warn('Client error: ' + res.statusCode);
+        }
+
+        // eval LaMetric Time response
         res.setEncoding('utf8');
         res.on('data', function (body) {
           node.log('Body: ' + body);
