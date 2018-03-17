@@ -6,66 +6,29 @@ module.exports = function(RED) {
 
       // create LaMetric notification body. check API reference for details: 
       // http://lametric-documentation.readthedocs.io/en/latest/reference-docs/device-notifications.html
-      //
-      // {
-      //   "priority": "[info|warning|critical]",
-      //   "icon_type":"[none|info|alert]",
-      //   "lifeTime":<milliseconds>,
-      //   "model": {
-      //    "frames": [
-      //     {
-      //        "icon":"<icon id or base64 encoded binary>",
-      //        "text":"<text>"
-      //     },
-      //     {
-      //       "icon":"i298",
-      //       "text":"text"
-      //     },
-      //     {
-      //         "icon":"i120",
-      //         "goalData":{
-      //             "start": 0,
-      //             "current": 50,
-      //             "end": 100,
-      //             "unit": "%"
-      //         }
-      //     },
-      //     {
-      //         "chartData": [ <comma separated integer values> ]
-      //     }
-      //     ],
-      //     "sound": {
-      //       "category":"[alarms|notifications]",
-      //         "id":"<sound_id>",
-      //         "repeat":<repeat count>
-      //     },
-      //     "cycles":<cycle count>
-      //   }
-      // }
-
       var notification = {
-        // "priority": "critical",
-        // "icon_type": "alert",
         "model": {
             "frames": [
                 {
-                    "icon": "i555",
                     "text": msg.payload
                 }
             ],
-            "sound": {
-                "category": "alarms",
-                "id": "alarm3",
-                "repeat": 1
-            },
-            "cycles": 0
         }
       };
       if (config.priority != "default") notification.priority = config.priority;
-      if (config.icon != "default") notification.icon_type = config.icon;
-      this.warn(notification);
-
+      if (config.icontype != "default") notification.icon_type = config.icontype;
+      if (config.lifetime.length > 0) notification.lifeTime = Number(config.lifetime);
+      if (config.icon.length > 0) notification.model.frames[0].icon = config.icon;
+      if (config.soundId != "none") {
+        var sound = {};
+        sound.category = (config.soundId.startsWith("alarm")) ? "alarms" : "notifications";
+        sound.id = config.soundId;
+        sound.repeat = Number(config.soundRepeat);
+        notification.model.sound = sound;
+      }
+      if (config.cycles.length > 0) notification.model.cycles = Number(config.cycles);
       var notificationString = JSON.stringify(notification);
+      this.log(notificationString);
 
       // define http request options
       var options = {
@@ -80,18 +43,18 @@ module.exports = function(RED) {
             'Accept': 'applciation/json'
         }
       };
-      this.warn(options);
+      this.log(JSON.stringify(options));
 
       // create http client
       var http = require('http');
 
       // create http request and attach response callback
       var req = http.request(options, function(res) {
-        node.warn('Status: ' + res.statusCode);
-        node.warn('Headers: ' + JSON.stringify(res.headers));
+        node.log('Status: ' + res.statusCode);
+        node.log('Headers: ' + JSON.stringify(res.headers));
         res.setEncoding('utf8');
         res.on('data', function (body) {
-          node.warn('Body: ' + body);
+          node.log('Body: ' + body);
         });
       });
       req.on('error', function(e) {

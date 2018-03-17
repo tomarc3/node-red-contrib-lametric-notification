@@ -6,7 +6,12 @@
             name: {value:""},
             host: {value:"", required:true},
             priority: {value:"default"},
-            icon: {value:"default"}
+            icontype: {value:"default"},
+            lifetime: {value:"", validate:RED.validators.regex(/[0-9]*/)},
+            icon: {value:""},
+            soundId: {value:"none"},
+            soundRepeat: {value:"", validate:RED.validators.regex(/[0-9]*/)},
+            cycles: {value:"", validate:RED.validators.regex(/[0-9]*/)}
         },
         credentials: {
             apikey: {type:"password"}
@@ -37,26 +42,96 @@
 <div class="form-row">
     <label for="node-input-priority"><i class="fa fa-exclamation-triangle"></i> Priority</label>
     <select id="node-input-priority">
-      <option value="default">default</option>
+      <option value="default"></option>
       <option value="info">info</option>
       <option value="warning">warning</option>
       <option value="critical">critical</option>
     </select>
 </div>
 <div class="form-row">
-    <label for="node-input-icon"><i class="fa fa-picture-o"></i> Icon Type</label>
-    <select id="node-input-icon">
-      <option value="default">default</option>
+    <label for="node-input-icontype"><i class="fa fa-picture-o"></i> Icon Type</label>
+    <select id="node-input-icontype">
+      <option value="default"></option>
       <option value="none">none</option>
       <option value="info">info</option>
       <option value="alert">alert</option>
     </select>
 </div>
+<div class="form-row">
+    <label for="node-input-lifetime"><i class="fa fa-clock-o"></i> Life Time</label>
+    <input type="text" id="node-input-lifetime" placeholder="Life Time in [ms]">
+</div>
+<div class="form-row">
+    <label for="node-input-icon"><i class="fa fa-picture-o"></i> Icon</label>
+    <input type="text" id="node-input-icon" placeholder="Icon ID">
+</div>
+<div class="form-row">
+    <label for="node-input-soundId"><i class="fa fa-music"></i> Sound</label>
+    <select id="node-input-soundId">
+        <option value="none"></option>
+        <option value="alarm1">alarm1</option>
+        <option value="alarm2">alarm2</option>
+        <option value="alarm3">alarm3</option>
+        <option value="alarm4">alarm4</option>
+        <option value="alarm5">alarm5</option>
+        <option value="alarm6">alarm6</option>
+        <option value="alarm7">alarm7</option>
+        <option value="alarm8">alarm8</option>
+        <option value="alarm9">alarm9</option>
+        <option value="alarm10">alarm10</option>
+        <option value="alarm11">alarm11</option>
+        <option value="alarm12">alarm12</option>
+        <option value="alarm13">alarm13</option>
+        <option value="bicycle">bicycle</option>
+        <option value="car">car</option>
+        <option value="cash">cash</option>
+        <option value="cat">cat</option>
+        <option value="dog">dog</option>
+        <option value="dog2">dog2</option>
+        <option value="energy">energy</option>
+        <option value="knock-knock">knock-knock</option>
+        <option value="letter_email">letter_email</option>
+        <option value="lose1">lose1</option>
+        <option value="lose2">lose2</option>
+        <option value="negative1">negative1</option>
+        <option value="negative2">negative2</option>
+        <option value="negative3">negative3</option>
+        <option value="negative4">negative4</option>
+        <option value="negative5">negative5</option>
+        <option value="notification">notification</option>
+        <option value="notification2">notification2</option>
+        <option value="notification3">notification3</option>
+        <option value="notification4">notification4</option>
+        <option value="open_door">open_door</option>
+        <option value="positive1">positive1</option>
+        <option value="positive2">positive2</option>
+        <option value="positive3">positive3</option>
+        <option value="positive4">positive4</option>
+        <option value="positive5">positive5</option>
+        <option value="positive6">positive6</option>
+        <option value="statistic">statistic</option>
+        <option value="thunder">thunder</option>
+        <option value="water1">water1</option>
+        <option value="water2">water2</option>
+        <option value="win">win</option>
+        <option value="win2">win2</option>
+        <option value="wind">wind</option>
+        <option value="wind_short">wind_short</option>
+    </select>
+</div>
+<div class="form-row">
+    <label for="node-input-soundRepeat"><i class="fa fa-repeat"></i> Repeat</label>
+    <input type="text" id="node-input-soundRepeat" placeholder="Number of sound repetitions.">
+</div>
+<div class="form-row">
+    <label for="node-input-cycles"><i class="fa fa-repeat"></i> Cycles</label>
+    <input type="text" id="node-input-cycles" placeholder="Number of message repetitions.">
+</div>
 </script>
 
 <script type="text/x-red" data-help-name="send-notification">
     <p>A simple node that sends a notification message to a LaMetric device.</p>
-
+    
     <h3>Inputs</h3>
     <dl class="message-properties">
         <dt>payload
@@ -71,6 +146,15 @@
         <dd> The priority of the notification. </dd>
         <dt class="optional">Icon Type <span class="property-type">string</span></dt>
         <dd> The icon type to be shown prior to the notification. </dd>
+        <dt class="optional">Life Time <span class="property-type">number</span></dt>
+        <dd> The time notification lives in queue to be displayed in milliseconds. </dd>
+        <dt class="optional">Icon <span class="property-type">string</span></dt>
+        <dd> The ID of the icon can be found at <a target="_blank" href="https://developer.lametric.com/icons">https://developer.lametric.com/icons</a>. </dd>
+        <dt class="optional">Sound <span class="property-type">string</span></dt>
+        <dd> The notification sound to play when notification pops on the LaMetric Time’s screen. </dd>
+        <dt class="optional">Repeat <span class="property-type">number</span></dt>
+        <dd> The number of times sound must be played. If set to 0 sound will be played until notification is dismissed. By default the value is set to 1. </dd>
+        <dt class="optional">Cycles <span class="property-type">number</span></dt>
+        <dd> The number of times message should be displayed. If cycles is set to 0, notification will stay on the screen until user dismisses it manually or you can dismiss it via the API (DELETE /api/v2/device/notifications/:id). By default it is set to 1. </dd>
     </dl>
-
 </script>
