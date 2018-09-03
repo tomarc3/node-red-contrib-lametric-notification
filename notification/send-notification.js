@@ -12,7 +12,7 @@ module.exports = function(RED) {
                 {
                     "text": msg.payload
                 }
-            ],
+            ]
         }
       };
       if (config.priority != "default") notification.priority = config.priority;
