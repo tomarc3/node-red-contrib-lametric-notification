@@ -10,8 +10,11 @@ This module provides [Node-RED](https://nodered.org/) nodes to display notificat
 
 # Changelog
 
+#### 0.1.2 (2018-10-04)
+* (Tom) extended error logs: The error message body will be logged. This fixes [issue #4](https://github.com/tomarc3/node-red-contrib-lametric-notification/issues/4).
+
 #### 0.1.1 (2018-09-02)
-* (Tom) fixed issue [#1 Client error: 400](https://github.com/tomarc3/node-red-contrib-lametric-notification/issues/1).
+* (Tom) fixed [issue #1 Client error: 400](https://github.com/tomarc3/node-red-contrib-lametric-notification/issues/1).
 
 #### 0.1.0 (2018-03-17)
 * (Tom) initial release.
