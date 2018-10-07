@@ -66,6 +66,15 @@ module.exports = function(RED) {
         res.setEncoding('utf8');
         res.on('data', function (body) {
           node.log('Body: ' + body);
+
+          var bodyObj = JSON.parse(body);
+          if (!!bodyObj.errors) {
+            for (var i=0; i<bodyObj.errors.length; i++) { 
+              if (!!bodyObj.errors[i].message) { 
+                node.warn(bodyObj.errors[i].message); 
+              }
+            }
+          }
         });
       });
       req.on('error', function(e) {
